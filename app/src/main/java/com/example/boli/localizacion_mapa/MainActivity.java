@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends ActionBarActivity implements GoogleMap.OnMapClickListener  {
 
+    // SE DECLARAN VARIABLES
     private GoogleMap mapa;
 
     private final LatLng CASA = new LatLng(18.3989219, -100.30982025);
@@ -30,12 +31,13 @@ public class MainActivity extends ActionBarActivity implements GoogleMap.OnMapCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+       //SE ENLAZA EL MAPFRAGMENT
         mapa = ((MapFragment) getFragmentManager().findFragmentById(R.id.mapa)).getMap();
         mapa.setMapType((GoogleMap.MAP_TYPE_SATELLITE));
 
         mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(CASA, 15));
 
+        // SE ABILITAN LOS CONTROLES.
         mapa.setMyLocationEnabled(true);
         mapa.getUiSettings().setZoomControlsEnabled(true);
         mapa.getUiSettings().setMyLocationButtonEnabled(true);
@@ -43,23 +45,25 @@ public class MainActivity extends ActionBarActivity implements GoogleMap.OnMapCl
         mapa.getUiSettings().setRotateGesturesEnabled(true);
         mapa.getUiSettings().setZoomGesturesEnabled(true);
 
-       //double latitude = 18.3989219;
-       // double longitude = -100.30982025;
 
+   //  Muestra un titulo cuando se esta en las cordenadas establecidas.
         mapa.addMarker( new MarkerOptions().position(CASA).title("Mi Hogar").snippet("Benito Juarez #21").icon(BitmapDescriptorFactory.fromResource(android.R.drawable.ic_menu_compass)).anchor(0.5f, 0.5f));
         mapa.setOnMapClickListener(this);
     }
 
+    //MANDA A LA POSICION DE LA CORDENADAS ESTABLECIDAS
     public void moveCamera(View view) {
         mapa.moveCamera(CameraUpdateFactory.newLatLng(CASA));
     }
 
+    //METODO QUE MUESTRA LA POSICION ACTUAL
     public void animateCamera(View view) {
         if (mapa.getMyLocation() != null)
            mapa.animateCamera(CameraUpdateFactory.newLatLngZoom(
                    new LatLng(mapa.getMyLocation().getLatitude(), mapa.getMyLocation().getLongitude()), 15));
     }
 
+    //COLOCA EL MARCADOR DONDE SE LE INDICA EN EL MAPA CUANDO SE PRESIONA EL BOTON MARCADOR
     public void addMarker(View view) {
         mapa.addMarker(new MarkerOptions().position(
                 new LatLng(mapa.getCameraPosition().target.latitude,
@@ -73,6 +77,7 @@ public class MainActivity extends ActionBarActivity implements GoogleMap.OnMapCl
         return true;
     }
 
+    //METODO PARA DARLE FUNCIONALIDAD A LOS MENUS
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -105,7 +110,7 @@ public class MainActivity extends ActionBarActivity implements GoogleMap.OnMapCl
         return super.onOptionsItemSelected(item);
     }
 
-
+ //METODO PARA CREAR UN MARCADOR CUANDO SE TOCA UN LUGAR EN EL MAPA Y SE LE ASIGNA UN COLOR DIFERENTE.
     @Override
     public void onMapClick(LatLng puntoPulsado) {
        mapa.addMarker(new MarkerOptions().position(puntoPulsado).
